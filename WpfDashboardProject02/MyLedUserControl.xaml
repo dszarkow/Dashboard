@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="WpfDashboardProject02.MyLedUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfDashboardProject02"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="30">
+
+    <Canvas Width="30" Height="30">
+        <Ellipse Height="30" Width="30" Fill="Silver"/>
+        <Ellipse Height="26" Width="26" Margin="2" Fill="Gray"/>
+        <Ellipse Height="20" Width="20" Margin="5" Name="innerEllipse" Fill="Black"/>
+    </Canvas>
+
+</UserControl>

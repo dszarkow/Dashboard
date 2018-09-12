@@ -1,0 +1,493 @@
+﻿<Window x:Class="WpfDashboardProject01.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:cam="clr-namespace:WebcamControl;assembly=WebcamControl"
+        xmlns:local="clr-namespace:WpfDashboardProject01"
+        xmlns:ftb="clr-namespace:FaceTrackingBasics"
+        mc:Ignorable="d"
+        Title="WPFDashboardProject01" Height="800" Width="1000" 
+        Closed="Window_Closed" WindowState="Maximized" Loaded="Window_Loaded" 
+        Unloaded="Window_Unloaded" Background="SlateGray">
+    <Grid>
+        <TabControl Background="LightGray">
+            <TabItem Width="110" Background="Red" Margin="10,0,5,0" Height="40" HeaderStringFormat="" ScrollViewer.VerticalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock Text="Settings" Foreground="Black" HorizontalAlignment="Left" FontSize="18" 
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+
+                        <GroupBox Header="Biometrics" Height="80" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Viewbox Height="20" Width="20">
+                                    <local:MyLedUserControl x:Name="biometricsStatusLed" HorizontalAlignment="Center"/>
+                                </Viewbox>
+                                <Label Margin="10,0,0,0">Biometric Signal Status</Label>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Heart Rate" Height="80" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Viewbox Height="20" Width="20">
+                                    <local:MyLedUserControl x:Name="heartRateStatusLed" HorizontalAlignment="Center"/>
+                                </Viewbox>
+                                <Label Margin="10,0,0,0">Heart Rate Signal Status</Label>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Webcam" Height="80" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Viewbox Height="20" Width="20">
+                                    <local:MyLedUserControl x:Name="webCamStatusLed" HorizontalAlignment="Center"/>
+                                </Viewbox>
+                                <Label Margin="10,0,0,0">WebCam Signal Status</Label>
+                            </StackPanel>
+                        </GroupBox>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+
+                        <GroupBox Header="Kinect V1" Height="80" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Viewbox Height="20" Width="20">
+                                    <local:MyLedUserControl x:Name="kinectV1StatusLed" HorizontalAlignment="Center"/>
+                                </Viewbox>
+                                <Label Margin="10,0,0,0">Kinect V1 Signal Status</Label>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Kinect V2" Height="80" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Viewbox Height="20" Width="20">
+                                    <local:MyLedUserControl x:Name="kinectV2StatusLed" HorizontalAlignment="Center"/>
+                                </Viewbox>
+                                <Label Margin="10,0,0,0">Kinect V2 Signal Status</Label>
+                            </StackPanel>
+                        </GroupBox>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+
+                        <GroupBox Header="Arduino" Height="80" Width="200" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Viewbox Height="20" Width="20">
+                                    <local:MyLedUserControl x:Name="arduinoStatusLed" HorizontalAlignment="Center"/>
+                                </Viewbox>
+                                <Label Margin="10,0,0,0">ArduinoSignal Status</Label>
+                            </StackPanel>
+                        </GroupBox>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="20,10,0,10">
+                        <Label>Debug File Name:</Label>
+                        <TextBox Name="tbDebugFileName" VerticalAlignment="Center">C:\Temp\DebugDashboard.txt</TextBox>
+                        <Button Name="btnSelectDebugFile" Content="Select Debug File..." Height="30" Width="150" Margin="10,0,0,0" FontSize="14"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="20,10,0,10">
+                        <Label>Output File Name:</Label>
+                        <TextBox Name="tbOutputFileName" VerticalAlignment="Center">C:\Temp\DashboardOutput.txt</TextBox>
+                        <Button Name="btnSelectOutputFile" Content="Select Output File..." Height="30" Width="150" Margin="10,0,0,0" FontSize="14"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Button Name="btnStartRecording" Content="Start Recording" Width="200" Height="50" Background="Lime" FontSize="18" Click="btnStartRecording_Click"/>
+                        <Button Name="btnStopRecording" Content="Stop Recording" Width="200" Height="50" Background="Red" Margin="10,0,0,0" FontSize="18" Click="btnStopRecording_Click"/>
+                    </StackPanel>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Width="110" Height="40" Background="Green" Margin="5,0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock Text="Biometrics" Foreground="Black" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" Orientation="Vertical" VerticalAlignment="Center" Margin="0,86,0,68">
+                        <Button Name="btnStart" Content="Start" Width="100" Height="30" Margin="5" Click="btnStart_Click" IsEnabled="True"/>
+                        <Button Name="btnStop" Content="Stop" Width="100" Height="30" Margin="5" Click="btnStop_Click" IsEnabled="False"/>
+                    </StackPanel>
+                    
+                    <TextBlock Grid.Row="6" Grid.ColumnSpan="4" Name="tbStatus" Text="Status Text" Width="600" Height="20" TextWrapping="Wrap" Grid.Column="1" Margin="83,0,193,0"/>
+
+                    <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Name="MyChart0" Width="400" Height="100" 
+                                        Series="{Binding mySeriesCollection0}" LegendLocation="None" 
+                                        Hoverable="False" DataTooltip="{x:Null}" DisableAnimations="True" 
+                                        Margin="5" />
+                    <lvc:CartesianChart Grid.Row="0" Grid.Column="2" Name="MyChart1" Width="400" Height="100" 
+                                        Series="{Binding mySeriesCollection1}" LegendLocation="None" 
+                                        Hoverable="False" DataTooltip="{x:Null}" DisableAnimations="True" 
+                                        Margin="5"/>
+                    <lvc:CartesianChart Grid.Row="1" Grid.Column="1" Name="MyChart2" Width="400" Height="100" 
+                                        Series="{Binding mySeriesCollection2}" LegendLocation="None" 
+                                        Hoverable="False" DataTooltip="{x:Null}" DisableAnimations="True" 
+                                        Margin="5"/>
+                    <lvc:CartesianChart Grid.Row="1" Grid.Column="2" Name="MyChart3" Width="400" Height="100" 
+                                        Series="{Binding mySeriesCollection3}" LegendLocation="None" 
+                                        Hoverable="False" DataTooltip="{x:Null}" DisableAnimations="True" 
+                                        Margin="5"/>
+                    <lvc:CartesianChart Grid.Row="2" Grid.Column="1" Name="MyChart4" Width="400" Height="100" 
+                                        Series="{Binding mySeriesCollection4}" LegendLocation="None" 
+                                        Hoverable="False" DataTooltip="{x:Null}" DisableAnimations="True" 
+                                        Margin="5"/>
+                    <lvc:CartesianChart Grid.Row="2" Grid.Column="2" Name="MyChart5" Width="400" Height="100" 
+                                        Series="{Binding mySeriesCollection5}" LegendLocation="None" 
+                                        Hoverable="False" DataTooltip="{x:Null}" DisableAnimations="True" 
+                                        Margin="5"/>
+                </Grid>
+            </TabItem>
+
+            <TabItem Width="110" Height="40" Background="Blue" Margin="5,0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock Text="Heart Rate" Foreground="Black" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Label Margin="5">Com Port:</Label>
+                        <ComboBox Name="comboPorts" HorizontalAlignment="Left" Margin="5,9" VerticalAlignment="Center" Width="338"/>
+                        <Button Name="btnRefresh" Content="Refresh" Width="80" Height="30" Margin="5" Click="btnRefresh_Click" RenderTransformOrigin="2.289,0.635"/>
+                        <Button Name="btnAttach" Content="Attach" Width="80" Height="30" Margin="5"  Click="btnAttach_Click"/>
+                        <Button Name="btnGo" Content="GO" Width="80" Height="30" Background="#33CC33" Margin="5"  Click="btnGo_Click"/>
+                        <Button Name="btnReset" Content="Reset" Width="80" Height="30" Background="Orange" Margin="5"  Click="btnReset_Click"/>
+                    </StackPanel>
+
+                    <TextBox Grid.Row="1" Grid.Column="0"  Name="txtLog" VerticalAlignment="Top" 
+                             VerticalScrollBarVisibility="Visible" HorizontalAlignment="Left" 
+                             Width="300" Height="671" Grid.ColumnSpan="1" Grid.RowSpan="3"/>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" 
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+                        <lvc:AngularGauge Name="gauge0" Width="250" Height="150" Margin="10,10,10,0"
+                                          Value="80" FromValue="0" ToValue="160" 
+                          LabelsStep="20" TicksStep="5" Wedge="300"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="10"
+                          SectionsInnerRadius=".5" >
+                            <lvc:AngularGauge.Sections>
+                                <lvc:AngularSection FromValue="00" ToValue="40" Fill="Red"/>
+                                <lvc:AngularSection FromValue="40" ToValue="60" Fill="Yellow"/>
+                                <lvc:AngularSection FromValue="60" ToValue="100" Fill="#33CC33"/>
+                                <lvc:AngularSection FromValue="100" ToValue="160" Fill="Red"/>
+                            </lvc:AngularGauge.Sections>
+                        </lvc:AngularGauge>
+                        <Label Content="Subject 0" FontSize="16" Margin="10,0,10,10" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Vertical" 
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+                        <lvc:AngularGauge Name="gauge1" Width="250" Height="150" Margin="10,10,10,0"
+                                                           Value="80" FromValue="0" ToValue="160" 
+                          LabelsStep="20" TicksStep="5" Wedge="300"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="10"
+                          SectionsInnerRadius=".5" >
+                            <lvc:AngularGauge.Sections>
+                                <lvc:AngularSection FromValue="00" ToValue="40" Fill="Red"/>
+                                <lvc:AngularSection FromValue="40" ToValue="60" Fill="Yellow"/>
+                                <lvc:AngularSection FromValue="60" ToValue="100" Fill="#33CC33"/>
+                                <lvc:AngularSection FromValue="100" ToValue="160" Fill="Red"/>
+                            </lvc:AngularGauge.Sections>
+                        </lvc:AngularGauge>
+                        <Label Content="Subject 1" FontSize="16" Margin="10,0,10,10" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Vertical" 
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+                        <lvc:AngularGauge Name="gauge2" Width="250" Height="150" Margin="10,10,10,0"
+                                                           Value="80" FromValue="0" ToValue="160" 
+                          LabelsStep="20" TicksStep="5" Wedge="300"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="10"
+                          SectionsInnerRadius=".5" >
+                            <lvc:AngularGauge.Sections>
+                                <lvc:AngularSection FromValue="00" ToValue="40" Fill="Red"/>
+                                <lvc:AngularSection FromValue="40" ToValue="60" Fill="Yellow"/>
+                                <lvc:AngularSection FromValue="60" ToValue="100" Fill="#33CC33"/>
+                                <lvc:AngularSection FromValue="100" ToValue="160" Fill="Red"/>
+                            </lvc:AngularGauge.Sections>
+                        </lvc:AngularGauge>
+                        <Label Content="Subject 2" FontSize="16" Margin="10,0,10,10" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical" 
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+                        <lvc:AngularGauge Name="gauge3" Width="250" Height="150" Margin="10,10,10,0"
+                                                           Value="80" FromValue="0" ToValue="160" 
+                          LabelsStep="20" TicksStep="5" Wedge="300"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="10"
+                          SectionsInnerRadius=".5" >
+                            <lvc:AngularGauge.Sections>
+                                <lvc:AngularSection FromValue="00" ToValue="40" Fill="Red"/>
+                                <lvc:AngularSection FromValue="40" ToValue="60" Fill="Yellow"/>
+                                <lvc:AngularSection FromValue="60" ToValue="100" Fill="#33CC33"/>
+                                <lvc:AngularSection FromValue="100" ToValue="160" Fill="Red"/>
+                            </lvc:AngularGauge.Sections>
+                        </lvc:AngularGauge>
+                        <Label Content="Subject 3" FontSize="16" Margin="10,0,10,10" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Vertical" 
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+                        <lvc:AngularGauge Name="gauge4" Width="250" Height="150" Margin="10,10,10,0"
+                                                           Value="80" FromValue="0" ToValue="160" 
+                          LabelsStep="20" TicksStep="5" Wedge="300"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="10"
+                          SectionsInnerRadius=".5" >
+                            <lvc:AngularGauge.Sections>
+                                <lvc:AngularSection FromValue="00" ToValue="40" Fill="Red"/>
+                                <lvc:AngularSection FromValue="40" ToValue="60" Fill="Yellow"/>
+                                <lvc:AngularSection FromValue="60" ToValue="100" Fill="#33CC33"/>
+                                <lvc:AngularSection FromValue="100" ToValue="160" Fill="Red"/>
+                            </lvc:AngularGauge.Sections>
+                        </lvc:AngularGauge>
+                        <Label Content="Subject 4" FontSize="16" Margin="10,0,10,10" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="3" Grid.Column="2" Orientation="Vertical" 
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="WhiteSmoke">
+                        <lvc:AngularGauge Name="gauge5" Width="250" Height="150" Margin="10,10,10,0"
+                                                           Value="80" FromValue="0" ToValue="160" 
+                          LabelsStep="20" TicksStep="5" Wedge="300"
+                          TicksForeground="White" Foreground="White" 
+                          FontWeight="Bold" FontSize="10"
+                          SectionsInnerRadius=".5" >
+                            <lvc:AngularGauge.Sections>
+                                <lvc:AngularSection FromValue="00" ToValue="40" Fill="Red"/>
+                                <lvc:AngularSection FromValue="40" ToValue="60" Fill="Yellow"/>
+                                <lvc:AngularSection FromValue="60" ToValue="100" Fill="#33CC33"/>
+                                <lvc:AngularSection FromValue="100" ToValue="160" Fill="Red"/>
+                            </lvc:AngularGauge.Sections>
+                        </lvc:AngularGauge>
+                        <Label Content="Subject 4" FontSize="16" Margin="10,0,10,10" 
+                               HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Width="110" Height="40" Background="Red" Margin="5,0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock Text="Webcam" Foreground="Black" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" Orientation="Vertical" VerticalAlignment="Center">
+                        <Button Name="btnStartWebcam" Width="100" Height="30" Content="Start Webcam" IsEnabled="True" Margin="5" Click="btnStartWebcam_Click"/>
+                        <Button Name="btnStopWebcam" Width="100" Height="30" Content="Stop Webcam" IsEnabled="False" Margin="5" Click="btnStopWebcam_Click"/>
+
+                        <!-- 
+                        <TextBlock Text="Video Device" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="VidDevices" Grid.Column="1" Margin="10,0,0,0"
+
+                      Width="210" Height="24"
+
+                      ItemsSource="{Binding VideoDevices}"
+
+                      DisplayMemberPath="Name"
+
+                      SelectedIndex="0"/>
+
+                        <TextBlock Text="Audio Device" Grid.Row="1" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="AudDevices" Grid.Row="1" Grid.Column="1"
+
+                      Width="210" Height="24" Margin="10,0,0,0"
+
+                      ItemsSource="{Binding AudioDevices}"
+
+                      DisplayMemberPath="Name"
+
+                      SelectedIndex="0"/>
+                       -->
+                    </StackPanel>
+
+                    <Viewbox Grid.Row="1" Grid.Column="1">
+                        <Image Width="640" Height="480" HorizontalAlignment="Left" Name="frameHolder"  Stretch="UniformToFill"/>
+
+                        <!-- <cam:Webcam x:Name="WebcamViewer" Margin="10" 
+                            FrameRate="30" 
+                            FrameSize="640, 480" 
+                            ImageDirectory="C:\WebcamSnapshots" 
+                            VideoDirectory="C:\VideoClips" 
+                            VideoDevice="{Binding SelectedItem, ElementName=VidDevices}" 
+                            AudioDevice="{Binding SelectedItem, ElementName=AudDevices}"/> -->
+                    </Viewbox>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Width="110" Height="40" Background="Green" Margin="5,0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock Text="Kinect V1" Foreground="Black" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="10">
+                        
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="9*"/>
+                            <RowDefinition Height="1*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Viewbox Panel.ZIndex="0">
+                                <Image Name="colorImage2" Width="640" Height="480"/>
+                            </Viewbox>
+                            <Viewbox Panel.ZIndex="1">
+                                <Image Name="skeletonImage" Width="640" Height="480"/>
+                            </Viewbox>
+                            <Viewbox Panel.ZIndex="2">
+                                <ftb:FaceTrackingViewer x:Name="faceTrackingViewer" Width="640" Height="480" />
+                            </Viewbox>
+                        </Grid>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White">
+                            <Button Name="btnLeftView" Content="Left" Width="50" Height="30" Margin="5" Background="Red" Click="btnLeftView_Click" VerticalAlignment="Center"/>
+                            <Button Name="btnFrontView" Content="Front" Width="50" Height="30" Margin="5" Background="Green" Click="btnFrontView_Click" VerticalAlignment="Center"/>
+                            <Button Name="btnTopView" Content="Top" Width="50" Height="30" Margin="5" Background="Blue" Click="btnTopView_Click" VerticalAlignment="Center"/>
+                            <Button Name="btnResetView" Content="Reset" Width="50" Height="30" Margin="5" Background="Yellow" Click="btnResetView_Click" VerticalAlignment="Center"/>
+                            <CheckBox Name="cbBones" Content="Bones" IsChecked="True" VerticalAlignment="Center" Margin="5"/>
+                            <CheckBox Name="cbJoints" Content="Joints" IsChecked="True" VerticalAlignment="Center" Margin="5"/>
+                        </StackPanel>                       
+
+                    </Grid>
+
+                    <Grid Grid.Row="1">
+                        <lvc:CartesianChart Name="MyChartKinectV1" Width="600" Height="150" Margin="10" 
+                                        Series="{Binding mySeriesCollectionKinectV1}" LegendLocation="None" 
+                                            Hoverable="False" DataTooltip="{x:Null}" DisableAnimations="True"/>
+
+                    </Grid>
+                </Grid>
+            </TabItem>
+
+            <TabItem Width="110" Height="40" Background="Blue" Margin="5,0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock Text="Kinect V2" Foreground="Black" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Label>Kinect V2 tab content...</Label>
+                </Grid>
+            </TabItem>
+
+            <TabItem Width="110" Height="40" Background="Red" Margin="5,0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock Text="Arduino" Foreground="Black" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Grid.RowSpan="2" Orientation="Vertical" 
+                    HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10">
+                        <Button Name="btnConnect" Content="Connect" Width="100" Height="30" Background="Yellow"  Click="btnConnectArduino_Click" Margin="5"/>
+                        <Button Name="btnLedOn" Content="Led On" Width="100" Height="30"  Background="Green" Click="btnLedOn_Click" Margin="5"/>
+                        <Button Name="btnLedOff" Content="Led Off" Width="100" Height="30" Background="Red"  Click="btnLedOff_Click" Margin="5"/>
+                        <Button Name="btnDisconnect" Content="Disconnect" Width="100" Height="30" Background="Yellow"  Click="btnDisconnectASrduino_Click" Margin="5" IsEnabled="False"/>
+                        <TextBlock Name="txtBlock1" Text="The LED is OFF" Width="100" Height="100" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.RowSpan="2">
+                        <lvc:CartesianChart Name="MyChartArduino" Width="400" Height="200" Margin="10" 
+                                        Series="{Binding mySeriesCollectionArduino}" LegendLocation="None" Hoverable="False" DataTooltip="{x:Null}" DisableAnimations="True"/>
+
+                        <lvc:Gauge Name="myGaugeArduino" Width="200" Height="200" Margin="10" From="0" To="1000" Value="0" 
+                                   HighFontSize="12" DisableAnimations="True"/>
+                    </StackPanel>
+
+
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Width="110" Height="40" Background="Green" Margin="5,0">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                        <TextBlock Text="Summary" Foreground="Black" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </TabItem.Header>
+                <Grid>
+                    <Label Height="713" VerticalAlignment="Bottom">Summary tab content...</Label>
+                </Grid>
+            </TabItem>
+
+        </TabControl>
+
+    </Grid>
+</Window>
